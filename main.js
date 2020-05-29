@@ -1,22 +1,23 @@
 'use strict';
 
-function play(e) {
-  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-  const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-  if (!audio) return; // para evitar que de error si no hay audio en la tecla
+const secondsHand = document.querySelector('.second-hand');
+const minsHand = document.querySelector('.min-hand');
+const hoursHand = document.querySelector('.hour-hand');
 
-  audio.currentTime = 0; //para poder pulsar repetidamente tecla
-  audio.play();
+function setDate(){
+  const now = new Date();
 
-  key.classList.add('playing');
+  const seconds = now.getSeconds();
+  const secondsDegrees = ((seconds / 60) * 360) + 90;
+  secondsHand.style.transform = `rotate(${secondsDegrees}deg)`;
+
+  const mins = now.getMinutes();
+  const minsDegrees = ((mins / 60) * 360) + 90;
+  minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+  const hours = now.getHours();
+  const hoursDegrees = ((hours / 60) * 360) + 90;
+  hourssHand.style.transform = `rotate(${hoursDegrees}deg)`;
 }
 
-function removeTransition(e){ 
-  if(e.propertyName !== 'transform') return;
-  this.classList.remove('playing');
-}
-
-const keys = document.querySelectorAll('.key');
-keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-
-window.addEventListener('keydown', play);
+setInterval(setDate, 1000)
